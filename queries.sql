@@ -179,14 +179,13 @@ Limit 		10
 -- Top 10 countries by death 2020 vs 2021
 
 SELECT 		location,
-MAX		(CASE WHEN date BETWEEN '2020-01-22' AND  '2021-01-23' THEN total_deaths END)
-AS 		total_deaths_in_2020,
-MAX		(CASE WHEN date BETWEEN '2021-01-23' AND  '2022-01-22' THEN total_deaths END) -
-MAX		(CASE WHEN date BETWEEN '2020-01-22' AND  '2021-01-23' THEN total_deaths END)
-AS 		total_deaths_in_2021
+SUM			(CASE WHEN date BETWEEN '2020-01-22' AND  '2021-01-23' THEN new_deaths END)
+AS 			total_deaths_in_2020,
+SUM			(CASE WHEN date BETWEEN '2021-01-23' AND  '2022-01-22' THEN new_deaths END)
+AS 			total_deaths_in_2021
 FROM 		covid_countries
 WHERE 		location in ('United States', 'Brazil', 'India', 'Russia', 'Mexico', 
-		'Peru', 'United Kingdom', 'Indonesia', 'Italy', 'Iran')
+			'Peru', 'United Kingdom', 'Indonesia', 'Italy', 'Iran')
 GROUP BY 	location
 ORDER BY 	total_deaths_in_2021 DESC
 
