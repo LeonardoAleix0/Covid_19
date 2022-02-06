@@ -1,0 +1,79 @@
+-- Total number of cases in the world on January 09th, 2022.
+
+Select    location,
+	  population,
+	  date,
+	  total_cases,
+	  (total_cases/population)*100 AS percerntage_of_cases
+From 	  covid_continent
+WHERE     location = 'World' 
+AND 	  date = '2022-01-09'
+GROUP BY  location, population, date, total_cases
+
+-- Percentage of deaths per population in the world on January 09th, 2022.
+
+Select    location,
+	  population,
+	  date,
+	  total_deaths,
+	  (total_deaths/population)*100 AS percerntage_of_cases
+From 	  covid_continent
+WHERE     location = 'World' 
+AND 	  date = '2022-01-09'
+GROUP BY  location, population, date, total_deaths
+
+-- Percentage of deaths per cases in the world.
+
+Select    location,
+	  SUM(new_cases) AS total_cases_globally,
+	  SUM(new_deaths) AS total_deaths_globally,
+	  SUM(new_deaths)/SUM(new_cases)*100 AS Global_death_percentage
+From 	  covid_continent
+WHERE     location = 'World' 
+GROUP BY  location
+
+
+-- Total number of cases per continent on January 09th, 2022.
+
+Select    location,
+	  population,
+	  date,
+	  total_cases 
+From      covid_continent
+WHERE     location IN ('Africa', 'Asia','Europe', 'North America', 'South America', 'Oceania')
+AND	  date = '2022-01-09'	
+GROUP BY  location, population, date, total_cases
+ORDER BY  total_cases DESC
+
+-- Percentage of cases per population and deaths by continent.
+
+Select    location,
+	  population,
+	  date,
+	  total_cases,
+	  total_deaths,
+	  (total_cases/population)*100 AS percentage_of_cases_per_population,
+	  (total_deaths/total_cases)*100 AS percentage_of_deaths_per_total_cases
+From      covid_continent
+WHERE     location In ('Africa', 'Asia', 'Europe', 'North America', 'South America', 'Oceania')
+AND	  date = '2022-01-09' 	
+GROUP BY  location, population, date, total_cases, total_deaths
+ORDER BY  percentage_of_cases_per_population DESC
+
+-- Percentage of population vaccinated per continent.
+
+Select    cnt.ind_cnt,
+	  cnt.location,
+	  cnt.population,
+	  cnt.date,
+	  (cnt.total_cases/cnt.population)*100 AS percerntage_of_cases_per_population,
+	  (cnt.total_deaths/cnt.total_cases)*100 AS percentage_of_deaths_per_cases,
+	  (vac.people_vaccinated/cnt.population) percentage_of_population_vaccinated
+From      covid_continent AS cnt
+Left Join covid_vaccinations AS vac
+ON        cnt.ind_cnt = vac.ind_vac
+WHERE     cnt.location In ('Africa', 'Asia', 'Europe', 'North America', 'South America', 'Oceania')
+AND	  cnt.date = '2022-01-09' 	
+GROUP BY  cnt.location, cnt.population, cnt.date, cnt.ind_cnt, percerntage_of_cases_per_population, percentage_of_deaths_per_cases,                     percentage_of_population_vaccinated
+ORDER BY  percerntage_of_cases_per_population desc
+
