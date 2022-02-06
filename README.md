@@ -3,6 +3,7 @@
 ## Overview of Project
 
 The objective is to have an overview of the numbers of Covid-19 infections, deaths and vaccinations around the world until January 2022. This work will be divided into three segments, world, continents and countries. 
+
 Note: The results of this project are entirely based on the numbers contained in the dataset and has no intentions of evaluating the actions taken by governments and/or effectiveness of vaccines. This work is based on the assumption that all countries involved in this analysis reported their numbers in the same way.
 
 Covid- 19 Worldwide:
